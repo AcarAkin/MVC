@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+
+<th:block layout:fragment="content">
+
+
+    <div th:if="${deleteStatus} != '' " class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong th:text="${deleteStatus}"></strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="row">
+        <div class="col sm-6">
+            <h3>Product Add</h3>
+            <form action="/productSave" method="post">
+                <div class="mb-3">
+                    <input name="title" type="text" placeholder="Title" class="form-control"/>
+                </div>
+
+                <div class="mb-3">
+                    <input name="detail" type="text" placeholder="Detail" class="form-control"/>
+                </div>
+
+                <div class="mb-3">
+                    <input name="price" type="number" min="5" max="10000" placeholder="Price" class="form-control"/>
+                </div>
+
+                <button type="submit" class="btn btn-danger">Save</button>
+            </form>
+        </div>
+        <div class="col sm-6">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Detail</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="item, itr : ${ls}">
+                    <th scope="row" th:text="${itr.index + 1}"></th>
+                    <td th:text="${item.title}"></td>
+                    <td th:text="${item.detail}"></td>
+                    <td th:text="${item.price}"></td>
+                    <td>
+                        <a onclick=" return deleteAlert()" th:href="'/productDelete/'+${item.pid}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+    <script>
+        function deleteAlert(){
+            return confirm("Are you sure!");
+        }
+    </script>
+
+
+</th:block>
+
+
+
+
+</body>
+</html>
